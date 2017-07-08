@@ -11,7 +11,7 @@ interface IContentFormProps {
     parameters: Array<IParameter>;
     errors: Array<string>;
     handleSubmit: () => void;
-    handleSectionChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleSectionChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     handleParameterChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -27,7 +27,7 @@ const ContentForm = (props: IContentFormProps) =>
               <div className="form-group">
                 <label htmlFor="inputEmail3" className="col-sm-2 control-label">Sekce</label>
                 <div className="col-sm-10">
-                  <SelectBox value={props.sectionId} onChange={props.handleSectionChange} options={props.sections} prompt="- Vyberte -" />
+                  <SelectBox value={props.sectionId.toString()} onChange={props.handleSectionChange} options={props.sections} prompt="- Vyberte -" />
                 </div>
               </div>
 

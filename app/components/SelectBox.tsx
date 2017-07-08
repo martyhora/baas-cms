@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {ChangeEvent} from "react";
 
 const getPrompt = (caption: string) => {
     if (!caption) {
@@ -8,16 +9,16 @@ const getPrompt = (caption: string) => {
     return <option value="">{caption}</option>
 };
 
-interface ISelectBoxOption {
+export interface ISelectBoxOption {
     id: string;
     name: string;
 }
 
 interface ISelectBoxProps {
     value: string;
-    name: string;
+    name?: string;
     prompt: string;
-    onChange: () => void;
+    onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     options: Array<ISelectBoxOption>;
 }
 

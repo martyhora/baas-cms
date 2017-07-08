@@ -1,27 +1,22 @@
 import * as React from 'react'
 import { parameterTypes } from '../../constants'
-import SelectBox from '../SelectBox'
+import SelectBox, {ISelectBoxOption} from '../SelectBox'
 import ItemListContainer from '../ItemList/ItemListContainer'
 import {ChangeEvent} from "react";
 import {IEnumValue, IParameter} from "../../interface";
 import ErrorList from "../ErrorList";
-
-interface IOptionType {
-    id: string;
-    name: string;
-}
 
 interface IParameterFormProps {
     parameter: IParameter;
     errors: Array<string>;
     handleTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleIdentificatorChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    handleTypeChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleTypeChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     handleEnumListChange: (items: Array<IEnumValue>) => void;
     handleSubmit: () => void;
 }
 
-let optionTypes: Array<IOptionType> = []
+let optionTypes: Array<ISelectBoxOption> = []
 
 for (let type in parameterTypes) {
     optionTypes.push({id: type, name: parameterTypes[type]});
