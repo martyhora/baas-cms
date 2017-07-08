@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Presenters;
+use App\Model\IApiRepository;
 use Nette\Application\BadRequestException;
+use Nette\Database\Table\ActiveRow;
 use Nette\Http\IRequest;
 
 /**
@@ -9,6 +11,9 @@ use Nette\Http\IRequest;
  */
 abstract class BaseApiPresenter extends BasePresenter implements IApiPresenter
 {
+    /** @var IApiRepository */
+    public $apiRepository;
+
     public function actionDefault()
     {
         $method = $this->request->getMethod();
@@ -40,5 +45,42 @@ abstract class BaseApiPresenter extends BasePresenter implements IApiPresenter
                 $this->sendJson($this->processPutRequest($parameters, $id));
                 break;
         }
+    }
+
+    public function processPostRequest(array $parameters)
+    {
+        $result = $this->apiRepository->save($parameters);
+
+        if ($result instanceof ActiveRow) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $result];
+    }
+
+    public function processGetRequest(array $parameters, $id = null)
+    {
+        if ($id === null) {
+            return $this->apiRepository->fetchRowsForApi();
+        }
+
+        $response = $this->apiRepository->fetchRowForApi($id);
+
+        if (!$response) {
+            return ['success' => false];
+        }
+
+        return $response;
+    }
+
+    public function processPutRequest(array $parameters, $id)
+    {
+        $result = $this->apiRepository->save($parameters, $id);
+
+        if ($result instanceof ActiveRow) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $result];
     }
 }

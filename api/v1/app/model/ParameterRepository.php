@@ -5,7 +5,7 @@ namespace App\Model;
 use App\Model;
 use Nette;
 
-class ParameterRepository extends BaseRepository
+class ParameterRepository extends BaseApiRepository
 {
     const TYPE_ENUM = 'enum';
 
@@ -68,10 +68,21 @@ class ParameterRepository extends BaseRepository
             $this->parameterEnum->saveEnums($parameter['id'], $enumValues);
         }
 
-        return true;
+        return $parameter;
     }
 
-    public function findParameters()
+    public function fetchRowForApi($id)
+    {
+        $row = $this->findRow($id);
+
+        if (!$row) {
+            return false;
+        }
+
+        return $row->toArray();
+    }
+
+    public function fetchRowsForApi()
     {
         return array_values(array_map('iterator_to_array', $this->findAll()->fetchAll()));
     }

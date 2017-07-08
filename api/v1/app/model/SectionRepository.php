@@ -5,7 +5,7 @@ namespace App\Model;
 use App\Model;
 use Nette;
 
-class SectionRepository extends BaseRepository
+class SectionRepository extends BaseApiRepository
 {
     protected $tableName = 'section';
 
@@ -66,10 +66,10 @@ class SectionRepository extends BaseRepository
 
         $this->sectionParameter->pairParametersToSection($section['id'], $parameters);
 
-        return true;
+        return $section;
     }
 
-    public function findOne($id)
+    public function fetchRowForApi($id)
     {
         $section = $this->findRow($id);
 
@@ -126,7 +126,7 @@ class SectionRepository extends BaseRepository
         return $parameters;
     }
 
-    public function findSections()
+    public function fetchRowsForApi()
     {
         return array_values(array_map('iterator_to_array', $this->findAll()->fetchAll()));
     }

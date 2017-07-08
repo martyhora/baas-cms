@@ -5,7 +5,7 @@ namespace App\Model;
 use App\Model;
 use Nette;
 
-class ContentSectionRepository extends BaseRepository
+class ContentSectionRepository extends BaseApiRepository
 {
     protected $tableName = 'content_section';
 
@@ -19,7 +19,7 @@ class ContentSectionRepository extends BaseRepository
         $this->content = $content;
     }
 
-    public function findContentSections()
+    public function fetchRowsForApi()
     {
         $sql = "SELECT sc.id, s.name sectionName, DATE_FORMAT(sc.date_created,'%d.%m.%Y') dateCreated
                 FROM {$this->tableName} sc
@@ -63,10 +63,10 @@ class ContentSectionRepository extends BaseRepository
 
         $this->content->saveParameters($contentSection['id'], $parameters);
 
-        return true;
+        return $contentSection;
     }
 
-    public function findContentSection($contentSectionId)
+    public function fetchRowForApi($contentSectionId)
     {
         $contentSection = $this->findRow($contentSectionId);
 
