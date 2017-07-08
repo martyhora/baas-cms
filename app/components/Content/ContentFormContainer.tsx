@@ -111,7 +111,7 @@ export default class ContentFormContainer extends React.Component<IContentFormCo
 
         if (this.props.match.params.id) {
             axios.get(`${apiUrl.content}/${this.props.match.params.id}`)
-                .then((response) => {
+                .then((response: AxiosResponse) => {
                     const sectionId = parseInt(response.data.sectionId);
 
                     this.fetchParameters(sectionId, (parameters: Array<IParameter>) => {
