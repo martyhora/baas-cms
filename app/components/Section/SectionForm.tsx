@@ -1,9 +1,11 @@
 import * as React from 'react'
 import {ChangeEvent} from "react";
 import {IParameter, ISection} from "../../interface";
+import ErrorList from "../ErrorList";
 
 interface ISectionFormProps {
     section: ISection;
+    errors: Array<string>;
     handleSubmit: () => void;
     handleTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleIdentificatorChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -17,6 +19,8 @@ const SectionForm = (props: ISectionFormProps) =>
     <div className="box box-primary">
         <div className="box-body">
           <div className="form-horizontal">
+              <ErrorList errors={props.errors}/>
+
               <div className="form-group">
                 <label htmlFor="inputEmail3" className="col-sm-2 control-label">Název sekce</label>
                 <div className="col-sm-10">

@@ -9,6 +9,7 @@ interface ISectionFormContainerState {
     name: string;
     parameters: Array<IParameter>;
     identificator: string;
+    errors: Array<string>;
     id?: number;
 }
 
@@ -21,7 +22,7 @@ interface ISectionFormContainerProps {
     history: any,
 }
 
-const defaultState: ISectionFormContainerState = { name: '', parameters: [] };
+const defaultState: ISectionFormContainerState = { name: '', parameters: [], identificator: '', errors: [] };
 
 export default class SectionFormContainer extends React.Component<ISectionFormContainerProps, ISectionFormContainerState> {
     constructor() {
@@ -55,7 +56,11 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
        if (!this.state.id) {
             axios.post(apiUrl.section, this.state)
                 .then((response) => {
-                    this.props.history.push('/section');
+                    if (response.data.success) {
+                        this.props.history.push('/section');
+                    } else {
+                        this.setState({ errors: response.data.errors });
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -63,7 +68,11 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
         } else {
             axios.put(`${apiUrl.section}/${this.state.id}`, this.state)
                 .then((response) => {
-                    this.props.history.push('/section');
+                    if (response.data.success) {
+                        this.props.history.push('/section');
+                    } else {
+                        this.setState({ errors: response.data.errors });
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -121,6 +130,7 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
                     handleIdentificatorChange={this.handleIdentificatorChange}
                     handleParameterChange={this.handleParameterChange}
                     section={this.state}
+                    errors={this.state.errors}
                 />
     }
 }

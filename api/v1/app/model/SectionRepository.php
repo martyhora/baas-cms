@@ -19,18 +19,53 @@ class SectionRepository extends BaseRepository
         $this->sectionParameter = $sectionParameter;
     }
 
+    private function getFormErrors($data, $id = null)
+    {
+        $errors = [];
+
+        $requiredFields = [
+            'name' => 'název sekce',
+        ];
+
+        foreach ($requiredFields as $requiredField => $fieldText)
+        {
+            if (empty($data[$requiredField])) {
+                $errors[] = "Pole {$fieldText} musí být vyplněné.";
+            }
+        }
+
+        $row = $this->findBy(['identificator' => $data['identificator']]);
+
+        if ($id) {
+            $row->where('id != ?', $id);
+        }
+
+        if ($row->fetch()) {
+            $errors[] = 'Sekce s tímto identifikátorem již existuje, zvolte prosím jiný.';
+        }
+
+        return $errors;
+    }
+
     public function save($data, $id = null)
     {
+        $errors = $this->getFormErrors($data, $id);
+
+        if (count($errors) > 0) {
+            return $errors;
+        }
+
         $parameters = $data['parameters'];
 
         unset($data['parameters']);
         unset($data['params']);
+        unset($data['errors']);
 
         $section = parent::save($data, $id);
 
         $this->sectionParameter->pairParametersToSection($section['id'], $parameters);
 
-        return $section;
+        return true;
     }
 
     public function findOne($id)

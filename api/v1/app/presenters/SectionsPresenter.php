@@ -11,9 +11,13 @@ class SectionsPresenter extends BaseApiPresenter
 
     public function processPostRequest(array $parameters)
     {
-        $this->sectionRepository->save($parameters);
+        $result = $this->sectionRepository->save($parameters);
 
-        return ['success' => true];
+        if ($result === true) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $result];
     }
 
     public function processGetRequest(array $parameters, $id = null)
@@ -33,9 +37,13 @@ class SectionsPresenter extends BaseApiPresenter
 
     public function processPutRequest(array $parameters, $id)
     {
-        $this->sectionRepository->save($parameters, $id);
+        $result = $this->sectionRepository->save($parameters, $id);
 
-        return ['success' => true];
+        if ($result === true) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $result];
     }
 
     public function actionGetParameters($id)
