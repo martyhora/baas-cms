@@ -25,6 +25,7 @@ class SectionRepository extends BaseRepository
 
         $requiredFields = [
             'name' => 'název sekce',
+            'identificator' => 'identifikátor sekce',
         ];
 
         foreach ($requiredFields as $requiredField => $fieldText)
