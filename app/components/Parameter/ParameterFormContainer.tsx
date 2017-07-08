@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { apiUrl } from '../../constants'
 import ParameterForm from './ParameterForm'
-import axios from 'axios'
+import axios, {AxiosPromise, AxiosResponse} from 'axios'
 import {IEnumValue, IItem} from "../../interface";
 import { ChangeEvent } from "react";
 
@@ -51,31 +51,24 @@ export default class ParameterFormContainer extends React.Component<IParameterFo
     }
 
     handleSubmit(): void {
+        let promise: AxiosPromise;
+
         if (!this.state.id) {
-            axios.post(apiUrl.parameter, this.state)
-                .then((response) => {
-                    if (response.data.success) {
-                        this.props.history.push('/parameter');
-                    } else {
-                        this.setState({ errors: response.data.errors });
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+            promise = axios.post(apiUrl.parameter, this.state);
         } else {
-            axios.put(`${apiUrl.parameter}/${this.state.id}`, this.state)
-                .then((response) => {
-                    if (response.data.success) {
-                        this.props.history.push('/parameter');
-                    } else {
-                        this.setState({ errors: response.data.errors });
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+            promise = axios.put(`${apiUrl.parameter}/${this.state.id}`, this.state);
         }
+
+        promise.then((response: AxiosResponse) => {
+            if (response.data.success) {
+                this.props.history.push('/parameter');
+            } else {
+                this.setState({ errors: response.data.errors });
+            }
+        })
+        .catch((error: Error) => {
+            console.log(error);
+        });
     }
 
     handleEnumListChange(items: Array<IItem>): void {
@@ -88,7 +81,7 @@ export default class ParameterFormContainer extends React.Component<IParameterFo
     componentDidMount() {
         if (this.props.match.params.id) {
             axios.get(`${apiUrl.parameter}/${this.props.match.params.id}`)
-                .then((response) => {
+                .then((response: AxiosResponse) => {
                     this.setState(response.data);
                 })
                 .catch((error: Error) => {

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { apiUrl } from '../../constants'
 import ParameterList from './ParameterList'
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import { IParameterBasicCollection } from '../../interface'
 
 export default class ParameterListContainer extends React.Component<{}, IParameterBasicCollection> {
@@ -15,7 +15,7 @@ export default class ParameterListContainer extends React.Component<{}, IParamet
 
     componentDidMount() {
         axios.get(apiUrl.parameter)
-            .then((response) => {
+            .then((response: AxiosResponse) => {
                 this.setState({ parameters: response.data })
             })
             .catch((error: Error) => {

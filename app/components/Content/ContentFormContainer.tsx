@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { apiUrl } from '../../constants'
 import ContentForm from './ContentForm'
-import axios from 'axios'
+import axios, {AxiosPromise, AxiosResponse} from 'axios'
 import {ChangeEvent} from "react";
 import {IParameter} from "../../interface";
 
@@ -54,10 +54,10 @@ export default class ContentFormContainer extends React.Component<IContentFormCo
     fetchParameters(sectionId: number, onParametersFetched: (parameters: Array<IParameter>) => void): void
     {
         axios.get(`${apiUrl.section}/get-parameters/${sectionId}`, this.state)
-            .then((response) => {
+            .then((response: AxiosResponse) => {
                 onParametersFetched(response.data);
             })
-            .catch((error) => {
+            .catch((error: Error) => {
                 console.log(error)
             });
     }
@@ -80,40 +80,32 @@ export default class ContentFormContainer extends React.Component<IContentFormCo
             sectionId: this.state.sectionId
         };
 
+        let promise: AxiosPromise;
+
         if (this.props.match.params.id) {
-            axios.put(`${apiUrl.content}/${this.props.match.params.id}`, dataToSave)
-                .then((response) => {
-                    if (response.data.success) {
-                        this.props.history.push('/content');
-                    } else {
-                        this.setState({ errors: response.data.errors });
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            promise = axios.put(`${apiUrl.content}/${this.props.match.params.id}`, dataToSave);
         } else {
-            axios.post(apiUrl.content, dataToSave)
-                .then((response) => {
-                    if (response.data.success) {
-                        this.props.history.push('/content');
-                    } else {
-                        this.setState({ errors: response.data.errors });
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            promise = axios.post(apiUrl.content, dataToSave);
         }
 
+        promise.then((response: AxiosResponse) => {
+            if (response.data.success) {
+                this.props.history.push('/content');
+            } else {
+                this.setState({ errors: response.data.errors });
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     }
 
     setDefaultValues(): void {
         axios.get(apiUrl.section, this.state)
-            .then((response) => {
+            .then((response: AxiosResponse) => {
                 this.setState({ sections: response.data })
             })
-            .catch((error) => {
+            .catch((error: Error) => {
                 console.log(error)
             });
 

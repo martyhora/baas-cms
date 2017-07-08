@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { apiUrl } from '../../constants'
 import ContentList from './ContentList'
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 
 export interface IContent {
     id?: number;
@@ -22,7 +22,7 @@ export default class ContantListContainer extends React.Component<{}, IContentCo
 
     componentDidMount() {
         axios.get(apiUrl.content)
-            .then((response) => {
+            .then((response: AxiosResponse) => {
                 this.setState({ items: response.data })
             })
             .catch((error) => {

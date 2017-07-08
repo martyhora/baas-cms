@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { apiUrl } from '../../constants'
 import SectionList from './SectionList'
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import {ISectionCollection} from "../../interface";
 
 export default class ParameterListContainer extends React.Component<{}, ISectionCollection> {
@@ -13,7 +13,7 @@ export default class ParameterListContainer extends React.Component<{}, ISection
 
     componentDidMount() {
         axios.get(apiUrl.section)
-            .then((response) => {
+            .then((response: AxiosResponse) => {
                 this.setState({ sections: response.data })
             })
             .catch((error) => {

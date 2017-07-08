@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { apiUrl } from '../../constants'
 import SectionForm from './SectionForm'
-import axios from 'axios'
+import axios, {AxiosPromise, AxiosResponse} from 'axios'
 import {IParameter} from "../../interface";
 import {ChangeEvent} from "react";
 
@@ -53,31 +53,24 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
     }
 
     handleSubmit() {
-       if (!this.state.id) {
-            axios.post(apiUrl.section, this.state)
-                .then((response) => {
-                    if (response.data.success) {
-                        this.props.history.push('/section');
-                    } else {
-                        this.setState({ errors: response.data.errors });
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+        let promise: AxiosPromise;
+
+        if (!this.state.id) {
+            promise = axios.post(apiUrl.section, this.state);
         } else {
-            axios.put(`${apiUrl.section}/${this.state.id}`, this.state)
-                .then((response) => {
-                    if (response.data.success) {
-                        this.props.history.push('/section');
-                    } else {
-                        this.setState({ errors: response.data.errors });
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+            promise = axios.put(`${apiUrl.section}/${this.state.id}`, this.state);
         }
+
+        promise.then((response: AxiosResponse) => {
+            if (response.data.success) {
+                this.props.history.push('/section');
+            } else {
+                this.setState({ errors: response.data.errors });
+            }
+        })
+        .catch((error: Error) => {
+            console.log(error);
+        });
     }
 
     /**
@@ -86,7 +79,7 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
     componentDidMount() {
         if (this.props.match.params.id) {
             axios.get(`${apiUrl.section}/${this.props.match.params.id}`)
-                .then((response) => {
+                .then((response: AxiosResponse) => {
                     axios.get(`${apiUrl.parameter}`)
                         .then((parameterResponse) => {
                             let newState = response.data;
@@ -99,16 +92,16 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
 
                             this.setState(newState)
                         })
-                        .catch((error) => {
+                        .catch((error: Error) => {
                             console.log(error)
                         })
                 })
-                .catch((error) => {
+                .catch((error: Error) => {
                     console.log(error)
                 })
         } else {
             axios.get(`${apiUrl.parameter}`)
-                .then((response) => {
+                .then((response: AxiosResponse) => {
                     defaultState.parameters = response.data.map((parameter: IParameter) => {
                         parameter.checked = false;
 
@@ -117,7 +110,7 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
 
                     this.setState(defaultState);
                 })
-                .catch((error) => {
+                .catch((error: Error) => {
                     console.log(error);
                 })
         }
