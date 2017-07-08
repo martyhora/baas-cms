@@ -10,6 +10,7 @@ interface IParameterFormContainerState {
     type: string;
     identificator: string;
     enumValues: Array<IEnumValue>;
+    errors: Array<string>;
     id?: number;
 }
 
@@ -22,7 +23,7 @@ interface IParameterFormContainerProps {
     history: any,
 }
 
-const defaultState: IParameterFormContainerState = { name: '', 'type': '', enumValues: [] };
+const defaultState: IParameterFormContainerState = { name: '', 'type': '', identificator: '', enumValues: [], errors: [] };
 
 export default class ParameterFormContainer extends React.Component<IParameterFormContainerProps, IParameterFormContainerState> {
     constructor() {
@@ -53,7 +54,11 @@ export default class ParameterFormContainer extends React.Component<IParameterFo
         if (!this.state.id) {
             axios.post(apiUrl.parameter, this.state)
                 .then((response) => {
-                    this.props.history.push('/parameter');
+                    if (response.data.success) {
+                        this.props.history.push('/parameter');
+                    } else {
+                        this.setState({ errors: response.data.errors });
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -61,7 +66,11 @@ export default class ParameterFormContainer extends React.Component<IParameterFo
         } else {
             axios.put(`${apiUrl.parameter}/${this.state.id}`, this.state)
                 .then((response) => {
-                    this.props.history.push('/parameter');
+                    if (response.data.success) {
+                        this.props.history.push('/parameter');
+                    } else {
+                        this.setState({ errors: response.data.errors });
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -98,6 +107,7 @@ export default class ParameterFormContainer extends React.Component<IParameterFo
                     handleTypeChange={this.handleTypeChange}
                     handleEnumListChange={this.handleEnumListChange}       
                     parameter={this.state}
+                    errors={this.state.errors}
                 />
     }
 }

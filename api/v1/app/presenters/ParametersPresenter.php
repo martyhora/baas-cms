@@ -11,9 +11,13 @@ class ParametersPresenter extends BaseApiPresenter
 
     public function processPostRequest(array $parameters)
     {
-        $this->parameterRepository->save($parameters);
+        $result = $this->parameterRepository->save($parameters);
 
-        return ['success' => true];
+        if ($result === true) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $result];
     }
 
     public function processGetRequest(array $parameters, $id = null)
@@ -33,8 +37,12 @@ class ParametersPresenter extends BaseApiPresenter
 
     public function processPutRequest(array $parameters, $id)
     {
-        $this->parameterRepository->save($parameters, $id);
+        $result = $this->parameterRepository->save($parameters, $id);
 
-        return ['success' => true];
+        if ($result === true) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $result];
     }
 }

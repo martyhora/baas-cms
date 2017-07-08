@@ -4,6 +4,7 @@ import SelectBox from '../SelectBox'
 import ItemListContainer from '../ItemList/ItemListContainer'
 import {ChangeEvent} from "react";
 import {IEnumValue, IParameter} from "../../interface";
+import ErrorList from "../ErrorList";
 
 interface IOptionType {
     id: string;
@@ -12,6 +13,7 @@ interface IOptionType {
 
 interface IParameterFormProps {
     parameter: IParameter;
+    errors: Array<string>;
     handleTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleIdentificatorChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleTypeChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -32,6 +34,8 @@ const ParameterForm = (props: IParameterFormProps) =>
         <div className="box box-primary">
             <div className="box-body">
                 <div className="form-horizontal">
+                    <ErrorList errors={props.errors}/>
+
                     <div className="form-group">
                         <label htmlFor="inputEmail3" className="col-sm-2 control-label">Název parametru</label>
                         <div className="col-sm-10">
