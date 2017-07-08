@@ -11,6 +11,6 @@ class PublicPresenter extends BasePresenter
 
     public function actionDefault($identificator)
     {
-        $this->sendJson($this->contentSectionRepository->findSectionsContentForApi($identificator));
+        $this->sendJson($this->contentSectionRepository->findSectionsContentForApi($identificator, $this->request->getParameters()));
     }
 }

@@ -70,10 +70,18 @@ class ContentSectionRepository extends BaseRepository
         ];
     }
 
-    public function findSectionsContentForApi($identificator)
+    public function findSectionsContentForApi($identificator, array $parameters)
     {
         $contentSeparator = ';;;';
         $parameterSeparator = '|||';
+
+        $where = ['s.identificator = ?'];
+        $args  = [$contentSeparator, $parameterSeparator, $identificator];
+
+        if (!empty($parameters['id'])) {
+            $where[] = 'cs.id = ?';
+            $args[]  = $parameters['id'];
+        }
 
         $sql = "
             SELECT cs.id, GROUP_CONCAT(CONCAT_WS(?, p.identificator, IFNULL(IF(p.type = 'string', c.value, pe.name), '')) SEPARATOR ?) content
@@ -82,11 +90,11 @@ class ContentSectionRepository extends BaseRepository
             JOIN content c ON c.content_section_id = cs.id
             JOIN parameter p ON p.id = c.parameter_id
             LEFT JOIN parameter_enum pe ON pe.id = c.value
-            WHERE s.identificator = ?          
+            WHERE " . implode(' AND ', $where) . "     
             GROUP BY cs.id
         ";
 
-        $rows = $this->database->queryArgs($sql, [$contentSeparator, $parameterSeparator, $identificator]);
+        $rows = $this->database->queryArgs($sql, $args);
 
         $result = [];
 
