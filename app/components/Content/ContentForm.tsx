@@ -3,11 +3,13 @@ import ContentParameter from './ContentParameter'
 import SelectBox from '../SelectBox'
 import {IParameter} from "../../interface";
 import {ChangeEvent} from "react";
+import ErrorList from "../ErrorList";
 
 interface IContentFormProps {
     sections: Array<any>;
     sectionId: number;
     parameters: Array<IParameter>;
+    errors: Array<string>;
     handleSubmit: () => void;
     handleSectionChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleParameterChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -20,6 +22,8 @@ const ContentForm = (props: IContentFormProps) =>
     <div className="box box-primary">
         <div className="box-body">
           <div className="form-horizontal">
+              <ErrorList errors={props.errors}/>
+
               <div className="form-group">
                 <label htmlFor="inputEmail3" className="col-sm-2 control-label">Sekce</label>
                 <div className="col-sm-10">

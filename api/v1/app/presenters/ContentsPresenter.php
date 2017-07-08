@@ -11,9 +11,13 @@ class ContentsPresenter extends BaseApiPresenter
 
     public function processPostRequest(array $parameters)
     {
-        $this->contentSectionRepository->save($parameters);
+        $result = $this->contentSectionRepository->save($parameters);
 
-        return ['success' => true];
+        if ($result === true) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $result];
     }
 
     public function processGetRequest(array $parameters, $id = null)
@@ -33,8 +37,12 @@ class ContentsPresenter extends BaseApiPresenter
 
     public function processPutRequest(array $parameters, $id)
     {
-        $this->contentSectionRepository->save($parameters, $id);
+        $result = $this->contentSectionRepository->save($parameters, $id);
 
-        return ['success' => true];
+        if ($result === true) {
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'errors' => $result];
     }
 }

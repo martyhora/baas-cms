@@ -29,8 +29,32 @@ class ContentSectionRepository extends BaseRepository
         return $this->database->query($sql)->fetchAll();
     }
 
+    private function getFormErrors($data, $id = null)
+    {
+        $errors = [];
+
+        $requiredFields = [
+            'sectionId' => 'sekce',
+        ];
+
+        foreach ($requiredFields as $requiredField => $fieldText)
+        {
+            if (empty($data[$requiredField])) {
+                $errors[] = "Pole {$fieldText} musí být vyplněné.";
+            }
+        }
+
+        return $errors;
+    }
+
     public function save($data, $id = null)
     {
+        $errors = $this->getFormErrors($data, $id);
+
+        if (count($errors) > 0) {
+            return $errors;
+        }
+
         $parameters = $data['parameters'];
 
         unset($data['parameters']);
@@ -39,7 +63,7 @@ class ContentSectionRepository extends BaseRepository
 
         $this->content->saveParameters($contentSection['id'], $parameters);
 
-        return $contentSection;
+        return true;
     }
 
     public function findContentSection($contentSectionId)

@@ -9,9 +9,10 @@ interface IContentFormContainerState {
     sections: Array<any>;
     sectionId: number;
     parameters: Array<IParameter>;
+    errors: Array<string>;
 }
 
-const defaultState: IContentFormContainerState = { sections: [], sectionId: 0, parameters: [] };
+const defaultState: IContentFormContainerState = { sections: [], sectionId: 0, parameters: [], errors: [] };
 
 interface IContentFormContainerProps {
     match: {
@@ -82,7 +83,11 @@ export default class ContentFormContainer extends React.Component<IContentFormCo
         if (this.props.match.params.id) {
             axios.put(`${apiUrl.content}/${this.props.match.params.id}`, dataToSave)
                 .then((response) => {
-                    this.props.history.push('/content');
+                    if (response.data.success) {
+                        this.props.history.push('/content');
+                    } else {
+                        this.setState({ errors: response.data.errors });
+                    }
                 })
                 .catch((error) => {
                     console.log(error)
@@ -90,7 +95,11 @@ export default class ContentFormContainer extends React.Component<IContentFormCo
         } else {
             axios.post(apiUrl.content, dataToSave)
                 .then((response) => {
-                    this.props.history.push('/content');
+                    if (response.data.success) {
+                        this.props.history.push('/content');
+                    } else {
+                        this.setState({ errors: response.data.errors });
+                    }
                 })
                 .catch((error) => {
                     console.log(error)
@@ -148,6 +157,7 @@ export default class ContentFormContainer extends React.Component<IContentFormCo
                     sections={this.state.sections}
                     sectionId={this.state.sectionId}
                     parameters={this.state.parameters}
+                    errors={this.state.errors}
                 />
     }
 }
