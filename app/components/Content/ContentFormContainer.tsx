@@ -53,7 +53,7 @@ export default class ContentFormContainer extends React.Component<IContentFormCo
 
     fetchParameters(sectionId: number, onParametersFetched: (parameters: Array<IParameter>) => void): void
     {
-        axios.get(`${apiUrl.section}/get-parameters/${sectionId}`, this.state)
+        axios.get(`${apiUrl.section}/get-parameters/${sectionId}`)
             .then((response: AxiosResponse) => {
                 onParametersFetched(response.data);
             })
@@ -101,7 +101,7 @@ export default class ContentFormContainer extends React.Component<IContentFormCo
     }
 
     setDefaultValues(): void {
-        axios.get(apiUrl.section, this.state)
+        axios.get(apiUrl.section)
             .then((response: AxiosResponse) => {
                 this.setState({ sections: response.data })
             })
