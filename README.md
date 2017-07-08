@@ -6,7 +6,7 @@ In the backend part you can define the content structure by creating sections an
 
 When you are done with the content structure, you can define the content data itself. Content is added by choosing a section to which the content belong and filling in the values of the parameters which are attached to the section.
 
-The content data are then available via API on ```/api/v1/public/[CONTENT_SECTION_ID]```.
+The content data are then available via API on ```/api/v1/public/[CONTENT_SECTION_IDENTIFICATOR]```.
 
 # Installation
 

@@ -8,6 +8,7 @@ import { ChangeEvent } from "react";
 interface IParameterFormContainerState {
     name: string;
     type: string;
+    identificator: string;
     enumValues: Array<IEnumValue>;
     id?: number;
 }
@@ -29,6 +30,7 @@ export default class ParameterFormContainer extends React.Component<IParameterFo
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleIdentificatorChange = this.handleIdentificatorChange.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.handleEnumListChange = this.handleEnumListChange.bind(this);
 
@@ -37,6 +39,10 @@ export default class ParameterFormContainer extends React.Component<IParameterFo
 
     handleTitleChange(e: ChangeEvent<HTMLInputElement>): void {
         this.setState({ name: e.currentTarget.value })
+    }
+
+    handleIdentificatorChange(e: ChangeEvent<HTMLInputElement>): void {
+        this.setState({ identificator: e.currentTarget.value })
     }
 
     handleTypeChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -88,7 +94,8 @@ export default class ParameterFormContainer extends React.Component<IParameterFo
         return <ParameterForm
                     handleSubmit={this.handleSubmit}
                     handleTitleChange={this.handleTitleChange}
-                    handleTypeChange={this.handleTypeChange}         
+                    handleIdentificatorChange={this.handleIdentificatorChange}
+                    handleTypeChange={this.handleTypeChange}
                     handleEnumListChange={this.handleEnumListChange}       
                     parameter={this.state}
                 />

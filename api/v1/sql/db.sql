@@ -43,6 +43,7 @@ CREATE TABLE `parameter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '0' COMMENT 'název parametru',
   `type` enum('string','enum') NOT NULL COMMENT 'typ parametru',
+  `identificator` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabulka s definovanými parametry';
 
@@ -66,6 +67,7 @@ DROP TABLE IF EXISTS `section`;
 CREATE TABLE `section` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT 'název sekce',
+  `identificator` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='tabulka se sekcemi';
 

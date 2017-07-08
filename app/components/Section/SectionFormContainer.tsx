@@ -8,6 +8,7 @@ import {ChangeEvent} from "react";
 interface ISectionFormContainerState {
     name: string;
     parameters: Array<IParameter>;
+    identificator: string;
     id?: number;
 }
 
@@ -29,12 +30,17 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleParameterChange = this.handleParameterChange.bind(this);
+        this.handleIdentificatorChange = this.handleIdentificatorChange.bind(this);
 
         this.state = defaultState;
     }
 
     handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
         this.setState({ name: e.currentTarget.value });
+    }
+
+    handleIdentificatorChange(e: ChangeEvent<HTMLInputElement>) {
+        this.setState({ identificator: e.currentTarget.value });
     }
 
     handleParameterChange(parameterIndex: number) {
@@ -112,6 +118,7 @@ export default class SectionFormContainer extends React.Component<ISectionFormCo
         return <SectionForm
                     handleSubmit={this.handleSubmit}
                     handleTitleChange={this.handleTitleChange}
+                    handleIdentificatorChange={this.handleIdentificatorChange}
                     handleParameterChange={this.handleParameterChange}
                     section={this.state}
                 />

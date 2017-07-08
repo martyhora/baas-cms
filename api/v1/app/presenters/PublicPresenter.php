@@ -9,8 +9,8 @@ class PublicPresenter extends BasePresenter
     /** @var ContentSectionRepository @inject */
     public $contentSectionRepository;
 
-    public function actionDefault($id)
+    public function actionDefault($identificator)
     {
-        $this->sendJson($this->contentSectionRepository->findSectionsContentForApi($id));
+        $this->sendJson($this->contentSectionRepository->findSectionsContentForApi($identificator));
     }
 }

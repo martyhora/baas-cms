@@ -1,4 +1,3 @@
-import {EParameterType} from "./interface";
 const apiBaseUrl = '/api'
 const apiVersion = '1'
 const apiBase = `${apiBaseUrl}/v${apiVersion}/`

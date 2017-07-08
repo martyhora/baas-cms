@@ -12,6 +12,7 @@ const SectionList = (props: ISectionCollection) =>
                     <thead>
                         <tr>
                             <th>Název</th>
+                            <th>Identifikátor pro API</th>
                             <th>Akce</th>
                         </tr>
                     </thead>
@@ -19,6 +20,7 @@ const SectionList = (props: ISectionCollection) =>
                         {props.sections.map((section: ISection, i: number) =>
                             <tr key={i}>
                                 <td>{section.name}</td>
+                                <td>{section.identificator}</td>
                                 <td><Link to={`section/edit/${section.id}`} title="Editace sekce"><span className="glyphicon glyphicon-edit" aria-hidden="true"></span></Link></td>
                             </tr>                            
                         )}

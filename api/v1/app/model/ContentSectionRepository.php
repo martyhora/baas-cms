@@ -70,30 +70,30 @@ class ContentSectionRepository extends BaseRepository
         ];
     }
 
-    public function findSectionsContentForApi($id)
+    public function findSectionsContentForApi($identificator)
     {
         $contentSeparator = ';;;';
         $parameterSeparator = '|||';
 
         $sql = "
-            SELECT cs.id, GROUP_CONCAT(CONCAT_WS(?, p.id, p.name, IFNULL(IF(p.type = 'string', c.value, pe.name), '')) SEPARATOR ?) content
+            SELECT cs.id, GROUP_CONCAT(CONCAT_WS(?, p.identificator, IFNULL(IF(p.type = 'string', c.value, pe.name), '')) SEPARATOR ?) content
             FROM {$this->tableName} cs
+            JOIN section s ON s.id = cs.section_id
             JOIN content c ON c.content_section_id = cs.id
             JOIN parameter p ON p.id = c.parameter_id
             LEFT JOIN parameter_enum pe ON pe.id = c.value
-            WHERE section_id = ?          
+            WHERE s.identificator = ?          
             GROUP BY cs.id
         ";
 
-        $rows = $this->database->queryArgs($sql, [$contentSeparator, $parameterSeparator, $id]);
+        $rows = $this->database->queryArgs($sql, [$contentSeparator, $parameterSeparator, $identificator]);
 
         $result = [];
 
         foreach ($rows as $row)
         {
             $contentParameter = [
-                'contentId' => $row->id,
-                'content'   => []
+                'id' => $row->id,
             ];
 
             $contents = explode($parameterSeparator, $row->content);
@@ -102,13 +102,7 @@ class ContentSectionRepository extends BaseRepository
             {
                 $params = explode($contentSeparator, $content);
 
-                $contentParameter['content'][] = [
-                    'parameter' => [
-                        'id'   => $params[0],
-                        'name' => $params[1],
-                    ],
-                    'value' => $params[2],
-                ];
+                $contentParameter[$params[0]] = $params[1];
             }
 
             $result[] = $contentParameter;

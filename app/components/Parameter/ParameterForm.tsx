@@ -13,6 +13,7 @@ interface IOptionType {
 interface IParameterFormProps {
     parameter: IParameter;
     handleTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleIdentificatorChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleTypeChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleEnumListChange: (items: Array<IEnumValue>) => void;
     handleSubmit: () => void;
@@ -35,6 +36,12 @@ const ParameterForm = (props: IParameterFormProps) =>
                         <label htmlFor="inputEmail3" className="col-sm-2 control-label">Název parametru</label>
                         <div className="col-sm-10">
                             <input value={props.parameter.name} onChange={props.handleTitleChange} className="form-control" placeholder="Název parametru" required/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="inputEmail3" className="col-sm-2 control-label">Identifikátor parametru pro API</label>
+                        <div className="col-sm-10">
+                            <input value={props.parameter.identificator} onChange={props.handleIdentificatorChange} className="form-control" placeholder="Identifikátor parametru pro API" required/>
                         </div>
                     </div>
                     <div className="form-group">

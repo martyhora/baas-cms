@@ -13,6 +13,7 @@ const ParameterList = (props: IParameterBasicCollection) =>
                     <thead>
                         <tr>
                             <th>Název</th>
+                            <th>Identifikátor pro API</th>
                             <th>Typ</th>
                             <th>Akce</th>
                         </tr>
@@ -21,6 +22,7 @@ const ParameterList = (props: IParameterBasicCollection) =>
                         {props.parameters.map((parameter: IParameterBasic, i: number) =>
                             <tr key={i}>
                                 <td>{parameter.name}</td>
+                                <td>{parameter.identificator}</td>
                                 <td>{parameterTypes[parameter.type]}</td>
                                 <td><Link to={`parameter/edit/${parameter.id}`} title="Editace parametru"><span className="glyphicon glyphicon-edit" aria-hidden="true"></span></Link></td>
                             </tr>

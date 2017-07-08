@@ -1,11 +1,7 @@
-export enum EParameterType {
-    String,
-    Enum
-}
-
 export interface IParameterBasic {
     id?: number;
     name: string;
+    identificator: string;
     type: string;
 }
 
@@ -31,6 +27,7 @@ export interface IParameter extends IParameterBasic {
 export interface ISection {
     id?: number;
     name: string;
+    identificator: string;
     parameters?: Array<IParameter>;
 }
 

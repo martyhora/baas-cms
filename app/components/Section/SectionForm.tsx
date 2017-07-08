@@ -6,6 +6,7 @@ interface ISectionFormProps {
     section: ISection;
     handleSubmit: () => void;
     handleTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleIdentificatorChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleParameterChange: (parameterIndex: number) => void;
 }
 
@@ -20,6 +21,12 @@ const SectionForm = (props: ISectionFormProps) =>
                 <label htmlFor="inputEmail3" className="col-sm-2 control-label">Název sekce</label>
                 <div className="col-sm-10">
                   <input value={props.section.name} onChange={props.handleTitleChange} className="form-control" placeholder="Název sekce" required/>
+                </div>
+              </div>
+              <div className="form-group">
+                <label htmlFor="inputEmail3" className="col-sm-2 control-label">Identifikátor sekce pro API</label>
+                <div className="col-sm-10">
+                  <input value={props.section.identificator} onChange={props.handleIdentificatorChange} className="form-control" placeholder="Identifikátor sekce pro API" required/>
                 </div>
               </div>
               <div className="form-group">
