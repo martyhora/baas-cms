@@ -1,0 +1,7 @@
+services:
+    - App\Model\ContentSectionRepository
+    - App\Model\ContentRepository
+    - App\Model\ParameterRepository
+    - App\Model\ParameterEnumRepository
+    - App\Model\SectionRepository
+    - App\Model\SectionParameterRepository
