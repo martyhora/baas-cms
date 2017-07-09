@@ -59,11 +59,21 @@ class ContentSectionRepository extends BaseApiRepository
 
         unset($data['parameters']);
 
-        $contentSection = parent::save(['section_id' => $data['sectionId']], $id);
+        try {
+            $this->database->beginTransaction();
 
-        $this->content->saveParameters($contentSection['id'], $parameters);
+            $contentSection = parent::save(['section_id' => $data['sectionId']], $id);
 
-        return $contentSection;
+            $this->content->saveParameters($contentSection['id'], $parameters);
+
+            $this->database->commit();
+
+            return $contentSection;
+        } catch (\PDOException $e) {
+            $this->database->rollBack();
+
+            throw $e;
+        }
     }
 
     public function fetchRowForApi($contentSectionId)

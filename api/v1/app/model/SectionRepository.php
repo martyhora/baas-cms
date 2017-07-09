@@ -62,11 +62,21 @@ class SectionRepository extends BaseApiRepository
         unset($data['params']);
         unset($data['errors']);
 
-        $section = parent::save($data, $id);
+        try {
+            $this->database->beginTransaction();
 
-        $this->sectionParameter->pairParametersToSection($section['id'], $parameters);
+            $section = parent::save($data, $id);
 
-        return $section;
+            $this->sectionParameter->pairParametersToSection($section['id'], $parameters);
+
+            $this->database->commit();
+
+            return $section;
+        }  catch (\PDOException $e) {
+            $this->database->rollBack();
+
+            throw $e;
+        }
     }
 
     public function fetchRowForApi($id)

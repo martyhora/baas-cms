@@ -49,13 +49,17 @@ abstract class BaseApiPresenter extends BasePresenter implements IApiPresenter
 
     public function processPostRequest(array $parameters)
     {
-        $result = $this->apiRepository->save($parameters);
+        try {
+            $result = $this->apiRepository->save($parameters);
 
-        if ($result instanceof ActiveRow) {
-            return ['success' => true];
+            if ($result instanceof ActiveRow) {
+                return ['success' => true];
+            }
+
+            return ['success' => false, 'errors' => $result];
+        } catch (\PDOException $e) {
+            return ['success' => false, 'errors' => ['Zápis dat do databáze selhal.']];
         }
-
-        return ['success' => false, 'errors' => $result];
     }
 
     public function processGetRequest(array $parameters, $id = null)
@@ -67,7 +71,7 @@ abstract class BaseApiPresenter extends BasePresenter implements IApiPresenter
         $response = $this->apiRepository->fetchRowForApi($id);
 
         if (!$response) {
-            return ['success' => false];
+            return ['success' => false, 'errors' => ["Záznam s ID {$id} nebyl nalezen."]];
         }
 
         return $response;
@@ -75,12 +79,16 @@ abstract class BaseApiPresenter extends BasePresenter implements IApiPresenter
 
     public function processPutRequest(array $parameters, $id)
     {
-        $result = $this->apiRepository->save($parameters, $id);
+        try {
+            $result = $this->apiRepository->save($parameters, $id);
 
-        if ($result instanceof ActiveRow) {
-            return ['success' => true];
+            if ($result instanceof ActiveRow) {
+                return ['success' => true];
+            }
+
+            return ['success' => false, 'errors' => $result];
+        } catch (\PDOException $e) {
+            return ['success' => false, 'errors' => ['Zápis dat do databáze selhal.']];
         }
-
-        return ['success' => false, 'errors' => $result];
     }
 }

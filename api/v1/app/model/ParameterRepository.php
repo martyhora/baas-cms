@@ -62,13 +62,23 @@ class ParameterRepository extends BaseApiRepository
         unset($data['enumValues']);
         unset($data['errors']);
 
-        $parameter = parent::save($data, $id);
+        try {
+            $this->database->beginTransaction();
 
-        if ($data['type'] === self::TYPE_ENUM) {
-            $this->parameterEnum->saveEnums($parameter['id'], $enumValues);
+            $parameter = parent::save($data, $id);
+
+            if ($data['type'] === self::TYPE_ENUM) {
+                $this->parameterEnum->saveEnums($parameter['id'], $enumValues);
+            }
+
+            $this->database->commit();
+
+            return $parameter;
+        }  catch (\PDOException $e) {
+            $this->database->rollBack();
+
+            throw $e;
         }
-
-        return $parameter;
     }
 
     public function fetchRowForApi($id)
