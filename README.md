@@ -1,4 +1,4 @@
-# BaaS CMS
+# Universal BaaS CMS
 
 A single page application written in Typescript and React consists of a backend by which you can define structure of your content and API by which you can fetch the content.
 
