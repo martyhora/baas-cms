@@ -1,5 +1,5 @@
 {
-  "name": "baas-cms",
+  "name": "universal-baas-cms",
   "version": "0.1.0",
   "description": "Headless CMS allowing you to define structure of your content that can be fetched via API.",
   "main": "index.html",
