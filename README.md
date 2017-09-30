@@ -12,7 +12,7 @@ The content data are then available via API on ```/api/v1/public/[CONTENT_SECTIO
 
 To run the project you will need Apache, PHP, Composer and NodeJs installed.
 
-- clone project by running ```git clone https://github.com/martyhora/baas-cms``` into your DocumentRoot path
+- clone project by running ```git clone https://github.com/martyhora/universal-baas-cms.git``` into your DocumentRoot path
 - change folder ```cd api/v1``` and run ```composer install```
 - run ```npm i``` or ```yarn install``` in the project root
 - run ```webpack --watch``` to compile changes in JS a LESS files
