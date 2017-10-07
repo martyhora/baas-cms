@@ -19,11 +19,11 @@ render(
       <header className="main-header">
         <a href="" className="logo">
           <span className="logo-mini">
-            <b>BaaS</b> CMS
+            <b>Universal BaaS</b> CMS
           </span>
 
           <span className="logo-lg">
-            <b>BaaS</b> CMS
+            <b>Universal BaaS</b> CMS
           </span>
         </a>
 
