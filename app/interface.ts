@@ -1,36 +1,36 @@
 export interface IParameterBasic {
-    id?: number;
-    name: string;
-    identificator: string;
-    type: string;
+  id?: number;
+  name: string;
+  identificator: string;
+  type: string;
 }
 
 export interface IParameterBasicCollection {
-    parameters: Array<IParameterBasic>
+  parameters: Array<IParameterBasic>;
 }
 
 export interface IItem {
-    name: string;
+  name: string;
 }
 
 export interface IEnumValue extends IItem {
-    id?: number;
+  id?: number;
 }
 
 export interface IParameter extends IParameterBasic {
-    enumValues: Array<IEnumValue>
-    value?: string;
-    checked?: boolean;
-    sectionId?: number;
+  enumValues: Array<IEnumValue>;
+  value?: string;
+  checked?: boolean;
+  sectionId?: number;
 }
 
 export interface ISection {
-    id?: number;
-    name: string;
-    identificator: string;
-    parameters?: Array<IParameter>;
+  id?: number;
+  name: string;
+  identificator: string;
+  parameters?: Array<IParameter>;
 }
 
 export interface ISectionCollection {
-    sections: Array<ISection>;
+  sections: Array<ISection>;
 }
