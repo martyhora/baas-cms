@@ -4,6 +4,8 @@ import SectionForm from './SectionForm';
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import { IParameter } from '../../interface';
 import { ChangeEvent } from 'react';
+import { connect } from 'react-redux';
+import { AppState } from '../../reducers/index';
 
 interface ISectionFormContainerState {
   name: string;
@@ -20,6 +22,7 @@ interface ISectionFormContainerProps {
     };
   };
   history: any;
+  authToken: string;
 }
 
 const defaultState: ISectionFormContainerState = {
@@ -29,12 +32,12 @@ const defaultState: ISectionFormContainerState = {
   errors: [],
 };
 
-export default class SectionFormContainer extends React.Component<
+class SectionFormContainer extends React.Component<
   ISectionFormContainerProps,
   ISectionFormContainerState
 > {
-  constructor() {
-    super();
+  constructor(props: ISectionFormContainerProps) {
+    super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -42,6 +45,8 @@ export default class SectionFormContainer extends React.Component<
     this.handleIdentificatorChange = this.handleIdentificatorChange.bind(this);
 
     this.state = defaultState;
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${props.authToken}`;
   }
 
   handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -141,3 +146,7 @@ export default class SectionFormContainer extends React.Component<
     );
   }
 }
+
+export default connect((state: AppState) => ({
+  authToken: state.auth.authToken,
+}))(SectionFormContainer);

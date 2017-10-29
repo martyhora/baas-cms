@@ -1,0 +1,12 @@
+parameters:
+    jwt:
+        key: 'superSecretKey'
+        algorithm: 'HS256'
+
+database:
+	dsn: 'mysql:host=;dbname='
+	user:
+	password:
+	options:
+		lazy: yes
+

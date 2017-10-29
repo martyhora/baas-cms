@@ -5,3 +5,5 @@ services:
     - App\Model\ParameterEnumRepository
     - App\Model\SectionRepository
     - App\Model\SectionParameterRepository
+    - App\Model\User
+    - App\Model\JwtAuth(%jwt.key%, %jwt.algorithm%)

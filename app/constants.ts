@@ -1,11 +1,12 @@
 const apiBaseUrl = '/api';
 const apiVersion = '1';
-const apiBase = `${apiBaseUrl}/v${apiVersion}/`;
+export const apiBase = `${apiBaseUrl}/v${apiVersion}/`;
 
 export const apiUrl = {
   parameter: `${apiBase}parameters`,
   section: `${apiBase}sections`,
   content: `${apiBase}contents`,
+  auth: `${apiBase}auth`,
 };
 
 interface IParameterTypes {
@@ -18,3 +19,5 @@ export const parameterTypes: IParameterTypes = {
   string: 'Text',
   enum: 'Výčet položek',
 };
+
+export const AUTH_TOKEN_KEY = 'authToken';

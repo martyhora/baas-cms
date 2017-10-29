@@ -4,6 +4,8 @@ import ParameterForm from './ParameterForm';
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import { IEnumValue, IItem } from '../../interface';
 import { ChangeEvent } from 'react';
+import { AppState } from '../../reducers/index';
+import { connect } from 'react-redux';
 
 interface IParameterFormContainerState {
   name: string;
@@ -21,6 +23,7 @@ interface IParameterFormContainerProps {
     };
   };
   history: any;
+  authToken: string;
 }
 
 const defaultState: IParameterFormContainerState = {
@@ -31,12 +34,12 @@ const defaultState: IParameterFormContainerState = {
   errors: [],
 };
 
-export default class ParameterFormContainer extends React.Component<
+class ParameterFormContainer extends React.Component<
   IParameterFormContainerProps,
   IParameterFormContainerState
 > {
-  constructor() {
-    super();
+  constructor(props: IParameterFormContainerProps) {
+    super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -45,6 +48,8 @@ export default class ParameterFormContainer extends React.Component<
     this.handleEnumListChange = this.handleEnumListChange.bind(this);
 
     this.state = defaultState;
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${props.authToken}`;
   }
 
   handleTitleChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -71,7 +76,7 @@ export default class ParameterFormContainer extends React.Component<
     promise
       .then((response: AxiosResponse) => {
         if (response.data.success) {
-          this.props.history.push('/parameter');
+          this.props.history.push('/');
         } else {
           this.setState({ errors: response.data.errors });
         }
@@ -117,3 +122,7 @@ export default class ParameterFormContainer extends React.Component<
     );
   }
 }
+
+export default connect((state: AppState) => ({
+  authToken: state.auth.authToken,
+}))(ParameterFormContainer);

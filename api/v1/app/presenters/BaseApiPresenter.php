@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 use App\Model\IApiRepository;
+use App\Model\JwtAuth;
 use Nette\Application\BadRequestException;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\IRequest;
@@ -13,6 +14,20 @@ abstract class BaseApiPresenter extends BasePresenter implements IApiPresenter
 {
     /** @var IApiRepository */
     public $apiRepository;
+
+    /** @var JwtAuth @inject */
+    public $jwtAuth;
+
+    protected function startup()
+    {
+        $userData = $this->jwtAuth->getUserData($this->getHttpRequest()->getHeader('Authorization'));
+
+        if (!$userData) {
+            $this->sendJson(['success' => false]);
+        }
+
+        parent::startup();
+    }
 
     public function actionDefault()
     {

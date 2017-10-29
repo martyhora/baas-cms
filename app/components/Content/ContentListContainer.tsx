@@ -2,6 +2,8 @@ import * as React from 'react';
 import { apiUrl } from '../../constants';
 import ContentList from './ContentList';
 import axios, { AxiosResponse } from 'axios';
+import { connect } from 'react-redux';
+import { AppState } from '../../reducers/index';
 
 export interface IContent {
   id?: number;
@@ -13,11 +15,17 @@ export interface IContentCollection {
   items: Array<IContent>;
 }
 
-export default class ContantListContainer extends React.Component<{}, IContentCollection> {
-  constructor() {
-    super();
+interface ContantListContainerProps {
+  authToken: string;
+}
+
+class ContantListContainer extends React.Component<ContantListContainerProps, IContentCollection> {
+  constructor(props: ContantListContainerProps) {
+    super(props);
 
     this.state = { items: [] };
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${props.authToken}`;
   }
 
   componentDidMount() {
@@ -35,3 +43,7 @@ export default class ContantListContainer extends React.Component<{}, IContentCo
     return <ContentList items={this.state.items} />;
   }
 }
+
+export default connect((state: AppState) => ({
+  authToken: state.auth.authToken,
+}))(ContantListContainer);

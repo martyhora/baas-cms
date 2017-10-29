@@ -4,6 +4,8 @@ import ContentForm from './ContentForm';
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import { ChangeEvent } from 'react';
 import { IParameter } from '../../interface';
+import { connect } from 'react-redux';
+import { AppState } from '../../reducers/index';
 
 interface IContentFormContainerState {
   sections: Array<any>;
@@ -26,6 +28,7 @@ interface IContentFormContainerProps {
     };
   };
   history: any;
+  authToken: string;
 }
 
 interface IParameterValue {
@@ -35,18 +38,20 @@ interface IParameterValue {
   value: string;
 }
 
-export default class ContentFormContainer extends React.Component<
+class ContentFormContainer extends React.Component<
   IContentFormContainerProps,
   IContentFormContainerState
 > {
-  constructor() {
-    super();
+  constructor(props: IContentFormContainerProps) {
+    super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSectionChange = this.handleSectionChange.bind(this);
     this.handleParameterChange = this.handleParameterChange.bind(this);
 
     this.state = defaultState;
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${props.authToken}`;
   }
 
   handleSectionChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -171,3 +176,7 @@ export default class ContentFormContainer extends React.Component<
     );
   }
 }
+
+export default connect((state: AppState) => ({
+  authToken: state.auth.authToken,
+}))(ContentFormContainer);
