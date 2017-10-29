@@ -8,6 +8,8 @@ When you are done with the content structure, you can define the content data it
 
 The content data are then available via API on ```/api/v1/public/[CONTENT_SECTION_IDENTIFICATOR]``` for all content rows in the section or ```/api/v1/public/[CONTENT_SECTION_IDENTIFICATOR]?id=[CONTENT_SECTION_ID]``` for a single content row.
 
+![alt text](https://martyhora.cz/img/portfolio/thumbnails/6.png)
+
 # Installation
 
 To run the project you will need Apache, PHP, Composer and NodeJs installed.
