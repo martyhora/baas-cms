@@ -10,7 +10,9 @@ import ContentListContainer from './Content/ContentListContainer';
 import ContentFormContainer from './Content/ContentFormContainer';
 import { IUser } from '../api/AuthApi';
 import { logoutUser } from '../actions/auth';
-import { LoginRoute, SecuredRoute } from '../routes/index';
+import { LoginRoute, SecuredRoute } from '../routes';
+import { APP_TITLE } from '../constants';
+import {AppState} from '../reducers';
 
 interface AppProps {
   userAuthenticated: boolean;
@@ -25,11 +27,11 @@ const App = ({ userAuthenticated, logoutUser, user }: AppProps) => (
         <header className="main-header">
           <a href="" className="logo">
             <span className="logo-mini">
-              <b>Universal BaaS</b> CMS
+              <b>{APP_TITLE}</b>
             </span>
 
             <span className="logo-lg">
-              <b>Universal BaaS</b> CMS
+              <b>{APP_TITLE}</b>
             </span>
           </a>
 
@@ -204,7 +206,7 @@ const App = ({ userAuthenticated, logoutUser, user }: AppProps) => (
 );
 
 export default connect(
-  state => ({
+  (state: AppState) => ({
     userAuthenticated: state.auth.authToken !== '',
     user: state.auth.user !== null ? state.auth.user : {},
   }),

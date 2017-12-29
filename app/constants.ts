@@ -21,3 +21,5 @@ export const parameterTypes: IParameterTypes = {
 };
 
 export const AUTH_TOKEN_KEY = 'authToken';
+
+export const APP_TITLE = 'Universal BaaS CMS';
